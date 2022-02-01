@@ -24,8 +24,11 @@ app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(docs))
 app.use(express.urlencoded({ extended: true })) /* bodyParser.urlencoded() is deprecated */
 
 const db = require('./src/models')
+
+console.log('db.clusterUri', db.clusterUri)
+
 db.mongoose
-  .connect(db.url, {
+  .connect(db.clusterUri, {
     useNewUrlParser: true,
     useUnifiedTopology: true
   })
