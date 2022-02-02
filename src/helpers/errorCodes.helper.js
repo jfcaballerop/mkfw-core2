@@ -4,7 +4,7 @@ const mongoDBErrorCodes = {
 
 const isMongoError = (errCode) => {
   console.log('*** isMongoError err:: ', JSON.stringify(errCode))
-  return mongoDBErrorCodes.hasOwnProperty(errCode.code) ? mongoDBErrorCodes[errCode.code] : undefined
+  return Object.prototype.hasOwnProperty.call(mongoDBErrorCodes, errCode.code) ? mongoDBErrorCodes[errCode.code] : undefined
 }
 
 module.exports = { mongoDBErrorCodes, isMongoError }
