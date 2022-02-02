@@ -98,7 +98,7 @@ const deleteAll = async (req) => {
 }
 
 // Find a single Customer with an id
-const findOne = async (req) => {
+const findOne = async (req, next) => {
   const id = req.params.id
 
   await Customer.findById(id)
@@ -123,8 +123,8 @@ const findOne = async (req) => {
       customerResponse = {
         ...customerResponse,
         msg: err.message || 'Error retrieving Customer with id=' + id,
-        status: isMongoError(err) ? isMongoError(err).httpStatus : 500,
-        data: null
+        status: 500,
+        data: err
       }
     })
   return customerResponse
