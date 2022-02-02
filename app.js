@@ -5,6 +5,7 @@ if (process.env.NODE_ENV !== 'prod') {
 const express = require('express')
 const swaggerUI = require('swagger-ui-express')
 const docs = require('./docs')
+const handleErrors = require('./src/middleware/handleErrors.js')
 
 const app = express()
 

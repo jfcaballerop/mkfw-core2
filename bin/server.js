@@ -21,8 +21,8 @@ process.on('unhandledRejection', err => {
 
 // If the Node process ends, close the Mongoose connection
 process.on('SIGINT', () => {
-	mongoose.connection.close(() => {
-	  console.log('Mongoose disconnected on app termination');
-	  process.exit(0);
-	});
-  });
+  mongoose.connection.close(() => {
+    console.log('Mongoose disconnected on app termination')
+    process.exit(0)
+  })
+})

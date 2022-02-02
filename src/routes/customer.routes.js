@@ -1,3 +1,5 @@
+const handleErrors = require('../middleware/handleErrors.js')
+
 module.exports = app => {
   const customers = require('../controllers/customer.controller.js')
 
@@ -31,4 +33,7 @@ module.exports = app => {
   router.delete('/:id', customers.remove)
 
   app.use('/api/customers', router)
+
+  // Add handleErrors
+  app.use(handleErrors)
 }
