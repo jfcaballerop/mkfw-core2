@@ -113,6 +113,13 @@ Una vez arrancado el entorno se puede probar aquí <http://localhost:3000/api-do
 
 ***
 
+## MIDDLEWAREs
+
+### handleErrors
+***
+Se configura un middleware que captura el error una vez pasa por las rutas, para capturar los diferentes tipos de errores y enviarlos de manera controlada.
+
+*TODO*: pendiente hacer uso de ***[Express Validator](https://express-validator.github.io/docs/check-api.html#checkfield-message)***
 ## TESTs
 
 Se usa el entorno de *jest* para la realizacion de las pruebas unitarias.
