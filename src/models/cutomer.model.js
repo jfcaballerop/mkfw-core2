@@ -1,4 +1,4 @@
-module.exports = mongoose => {
+export default mongoose => {
   const schema = mongoose.Schema(
     {
       userName: { type: String, index: true, unique: true, required: true },

@@ -1,4 +1,4 @@
-const CustomerService = require('../services/customer.service')
+const CustomerService = require('../services/customer.service').default
 const { customerToCustomerDTO } = require('../mappers/customerToCustomerDTO')
 
 // Create and Save a new Customer

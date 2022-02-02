@@ -1,5 +1,6 @@
-require('dotenv').config()
-const app = require('../app')
+import { config } from 'dotenv'
+import app from '../app'
+config()
 
 // set port, listen for requests
 const PORT = (process.env.NODE_ENV === 'test') ? process.env.NODE_TEST_LOCAL_PORT : process.env.NODE_DOCKER_PORT

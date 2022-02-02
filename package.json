@@ -3,6 +3,7 @@
 	"version": "1.0.0",
 	"description": "Level Test",
 	"main": "app.js",
+	"type": "module",
 	"scripts": {
 		"test": "cross-env NODE_ENV=test jest",
 		"dev": "cross-env NODE_ENV=dev nodemon ./bin/server.js",

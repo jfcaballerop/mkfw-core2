@@ -14,7 +14,7 @@ const clusterUri = `mongodb+srv://${DB_USER}:${DB_PASSWORD}@${DB_CLUSTER_HOST}/$
 const url = `mongodb://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${(NODE_ENV === 'test') ? DB_NAME_TEST : DB_NAME}?authSource=admin`
 console.info('*** DB ENV=', NODE_ENV, ' URL=', url)
 
-module.exports = {
+export default {
   url,
   clusterUri
 }

@@ -1,7 +1,7 @@
-const { isMongoError } = require('../helpers/errorCodes.helper')
-const db = require('../models')
+import { isMongoError } from '../helpers/errorCodes.helper'
+import db from '../models'
+import customerResponse from '../interface/ICustomerResponse'
 const Customer = db.customers
-let { customerResponse } = require('../interface/ICustomerResponse')
 
 // Create and Save a new Customer
 const save = async (req) => {
@@ -282,7 +282,7 @@ const findAllAvailableCreditOrderByCredit = async () => {
   return customerResponse
 }
 
-module.exports = {
+export default {
   save,
   findAll,
   deleteAll,

@@ -1,7 +1,5 @@
-const customerResponse = {
+export default {
   msg: '',
   status: '',
   data: null
 }
-
-module.exports = { customerResponse }

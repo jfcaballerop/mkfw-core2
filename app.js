@@ -23,7 +23,7 @@ app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(docs))
 // parse requests of content-type - application/x-www-form-urlencoded
 app.use(express.urlencoded({ extended: true })) /* bodyParser.urlencoded() is deprecated */
 
-const db = require('./src/models')
+const db = require('./src/models').default
 
 console.log('db.clusterUri', db.clusterUri)
 
