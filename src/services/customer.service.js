@@ -175,6 +175,7 @@ const update = async (req) => {
 
   const id = req.params.id
 
+  // TODO: Add new:true si queremos que nos devuelva el objeto nuevo
   await Customer.findByIdAndUpdate(id, req.body, { useFindAndModify: false })
     .then(data => {
       if (!data) {
