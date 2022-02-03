@@ -5,6 +5,8 @@ if (process.env.NODE_ENV !== 'prod') {
 const express = require('express')
 const swaggerUI = require('swagger-ui-express')
 const docs = require('./docs')
+const handleErrors = require('./src/middleware/handleErrors')
+const notFound = require('./src/middleware/notFound')
 
 const app = express()
 
@@ -47,5 +49,11 @@ app.get('/', (req, res) => {
 
 // Add Customer Routes
 require('./src/routes/customer.routes')(app)
+
+// not Fund 404
+app.use(notFound)
+
+// Add handleErrors
+app.use(handleErrors)
 
 module.exports = app

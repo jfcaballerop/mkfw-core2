@@ -166,3 +166,4 @@ $ cross-env NODE_ENV=dev nodemon index.js
 - No se ha configurado ni creado la parte *Pub/Sub* para a través de EvenEmitter poder efectuar acciones async como el logeo, o registro de actividad (Ej. en Elastic)
 - No hay generado ningúna suscripción ni se usa Event Driven, que podría estar bien sobre todo para estar suscritos a una RabbitMQ, Azure queues o similar, e incluso conexión con Kafka que pudiera alimentar diferentes flujos BigData.
 - Por último quedaría haber dejado preparado algún WebSocket con socket.io para crear eventos con el frontal (por ejemplo).
+- Falta el analisis de errores con [sentry](https://sentry.io/welcome/)
