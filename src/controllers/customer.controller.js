@@ -20,9 +20,14 @@ exports.removeAll = async (req, res) => {
 }
 
 // Find a single Customer with an id
-exports.getOne = async (req, res) => {
-  const response = await CustomerService.findOne(req)
-  res.status(response.status).send(response)
+exports.getOne = async (req, res, next) => {
+  const response = await CustomerService.findOne(req, next)
+  // check if error
+  if (response.status !== 500) {
+    res.status(response.status).send(response)
+  } else {
+    next(response.data)
+  }
 }
 
 // Find a single Customer with an userName

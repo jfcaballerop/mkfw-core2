@@ -5,6 +5,8 @@ if (process.env.NODE_ENV !== 'prod') {
 const express = require('express')
 const swaggerUI = require('swagger-ui-express')
 const docs = require('./docs')
+const handleErrors = require('./src/middleware/handleErrors')
+const notFound = require('./src/middleware/notFound')
 
 const app = express()
 
@@ -24,8 +26,11 @@ app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(docs))
 app.use(express.urlencoded({ extended: true })) /* bodyParser.urlencoded() is deprecated */
 
 const db = require('./src/models')
+
+console.log('db.clusterUri', db.clusterUri)
+
 db.mongoose
-  .connect(db.url, {
+  .connect(db.clusterUri, {
     useNewUrlParser: true,
     useUnifiedTopology: true
   })
@@ -44,5 +49,11 @@ app.get('/', (req, res) => {
 
 // Add Customer Routes
 require('./src/routes/customer.routes')(app)
+
+// not Fund 404
+app.use(notFound)
+
+// Add handleErrors
+app.use(handleErrors)
 
 module.exports = app

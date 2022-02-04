@@ -6,6 +6,7 @@ mongoose.Promise = global.Promise
 const db = {}
 db.mongoose = mongoose
 db.url = dbConfig.url
+db.clusterUri = dbConfig.clusterUri
 db.customers = require('./cutomer.model.js')(mongoose)
 
 module.exports = db

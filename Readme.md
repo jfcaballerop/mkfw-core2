@@ -1,6 +1,6 @@
-# TAX DEV
+# MKFW-CORE2
 
-Proyecto basado en mi antiguo arquetipo **[mkfm-core](https://github.com/jfcaballerop/mkfm-core.git)** actualizado y recortado para la prueba ;)
+Proyecto basado en mi antiguo arquetipo **[mkfm-core](https://github.com/jfcaballerop/mkfm-core.git)** actualizado y mejorado para la ocasión ;)
 
 ## Arquetipo
 
@@ -92,6 +92,8 @@ $ docker run -dp 3000:3000 jfcaballero/tax-dev
 
 ### MongoDB
 
+***NOTA:*** *La BD al ser creada con Docker_compose está sin poblar. Las alternativas pasan por ejecutar los TEST para poblarla apuntando a la BD real y no de TEST o bien ejecutar los endpoints con los ejemplos tal como están en los tests.*
+
 Se configura a través de docker-compose.
 Hay dos cofiguraciones, una para un MongoDB Standalone, y otro para el stack completo.
 
@@ -111,6 +113,13 @@ Una vez arrancado el entorno se puede probar aquí <http://localhost:3000/api-do
 
 ***
 
+## MIDDLEWAREs
+
+### handleErrors
+***
+Se configura un middleware que captura el error una vez pasa por las rutas, para capturar los diferentes tipos de errores y enviarlos de manera controlada.
+
+*TODO*: pendiente hacer uso de ***[Express Validator](https://express-validator.github.io/docs/check-api.html#checkfield-message)***
 ## TESTs
 
 Se usa el entorno de *jest* para la realizacion de las pruebas unitarias.
@@ -157,3 +166,4 @@ $ cross-env NODE_ENV=dev nodemon index.js
 - No se ha configurado ni creado la parte *Pub/Sub* para a través de EvenEmitter poder efectuar acciones async como el logeo, o registro de actividad (Ej. en Elastic)
 - No hay generado ningúna suscripción ni se usa Event Driven, que podría estar bien sobre todo para estar suscritos a una RabbitMQ, Azure queues o similar, e incluso conexión con Kafka que pudiera alimentar diferentes flujos BigData.
 - Por último quedaría haber dejado preparado algún WebSocket con socket.io para crear eventos con el frontal (por ejemplo).
+- Falta el analisis de errores con [sentry](https://sentry.io/welcome/)

@@ -16,12 +16,13 @@ const save = async (req) => {
     // Create a Customer
     const customer = new Customer({
       userName: req.body.userName,
-      name: req.body.userName ? req.body.userName : {},
+      name: req.body.name ? req.body.name : {},
       description: req.body.description ? req.body.description : '',
       active: req.body.active ? req.body.active : true,
       city: req.body.city ? req.body.city : '',
       country: req.body.country ? req.body.country : '',
-      phone: req.body.phone ? req.body.phone : []
+      phone: req.body.phone ? req.body.phone : [],
+      availableCredit: req.body.availableCredit ? req.body.availableCredit : 0
     })
 
     // Save Customer in the database
@@ -97,7 +98,7 @@ const deleteAll = async (req) => {
 }
 
 // Find a single Customer with an id
-const findOne = async (req) => {
+const findOne = async (req, next) => {
   const id = req.params.id
 
   await Customer.findById(id)
@@ -122,8 +123,8 @@ const findOne = async (req) => {
       customerResponse = {
         ...customerResponse,
         msg: err.message || 'Error retrieving Customer with id=' + id,
-        status: isMongoError(err) ? isMongoError(err).httpStatus : 500,
-        data: null
+        status: 500,
+        data: err
       }
     })
   return customerResponse
@@ -174,6 +175,7 @@ const update = async (req) => {
 
   const id = req.params.id
 
+  // TODO: Add new:true si queremos que nos devuelva el objeto nuevo
   await Customer.findByIdAndUpdate(id, req.body, { useFindAndModify: false })
     .then(data => {
       if (!data) {
