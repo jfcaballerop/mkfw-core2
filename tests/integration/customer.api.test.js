@@ -1,14 +1,17 @@
 const supertest = require('supertest')
-const app = require('../../app')
+const { app, server } = require('../../bin/server')
 const db = require('../../src/models')
 const { createRandomUser } = require('../../src/utils/testingUtils')
 
 const request = supertest(app)
 
 describe('Customer API Test', () => {
-  afterAll(() => {
-  // Closing the DB connection allows Jest to exit successfully.
-    db.mongoose.connection.close()
+  afterAll(async () => {
+    console.log('**** Closing *****')
+    await server.close()
+    // Closing the DB connection allows Jest to exit successfully.
+    await db.mongoose.connection.close()
+    await new Promise(resolve => setTimeout(() => resolve(), 10000)) // avoid jest open handle error
   })
 
   test('Ping test', async () => {

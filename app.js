@@ -32,7 +32,10 @@ console.log('db.clusterUri', db.clusterUri)
 db.mongoose
   .connect(db.clusterUri, {
     useNewUrlParser: true,
-    useUnifiedTopology: true
+    useUnifiedTopology: true,
+    serverSelectionTimeoutMS: 5000, // Keep trying to send operations for 5 seconds
+    socketTimeoutMS: (process.env.NODE_ENV === 'test') ? 5000 : 30000,
+    heartbeatFrequencyMS: (process.env.NODE_ENV === 'test') ? 5000 : 30000
   })
   .then(() => {
     console.log('Connected to the database!')
