@@ -5,7 +5,7 @@ const { createRandomUser } = require('../../src/utils/testingUtils')
 
 const request = supertest(app)
 
-describe('Customer API Test', () =>
+describe('Customer API Test', () => {
   afterAll(async () => {
     console.log('**** Closing *****')
     await server.close()
