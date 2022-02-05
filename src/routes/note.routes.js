@@ -3,33 +3,26 @@ module.exports = app => {
   const notes = require('../controllers/note.controller.js')
   const router = require('express').Router()
 
-  // Retrieve all customers
+  // Retrieve all notes
   router.get('/', notes.getAll)
 
-  /*
-  // Create a new Customer
-  router.post('/', customers.create)
+  // Retrieve a single Note with id
+  router.get('/:id', notes.getOne)
+
+  // Retrieve a single Note with title
+  router.get('/title/:title', notes.getOneByTitle)
+
+  // Create a new Note
+  router.post('/', notes.create)
 
   // Delete ALL
-  router.delete('/', customers.removeAll)
+  router.delete('/', notes.removeAll)
 
-  // Retrieve all active customers
-  router.get('/activated', customers.getAllActivated)
+  // Update a Note
+  router.put('/', notes.update)
 
-  // Retrieve all ACTIVE customers order by Credit
-  router.get('/credit', customers.getAllAvailableCredit)
+  // Delete a Note with id
+  router.delete('/:id', notes.remove)
 
-  // Retrieve a single Customer with id
-  router.get('/:id', customers.getOne)
-
-  // Retrieve a single Customer with userName
-  router.get('/user/:userName', customers.getOneByUserName)
-
-  // Update a Customer with id
-  router.put('/:id', customers.update)
-
-  // Delete a Customer with id
-  router.delete('/:id', customers.remove)
-*/
   app.use('/api/notes', router)
 }
