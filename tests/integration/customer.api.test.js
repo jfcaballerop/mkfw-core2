@@ -5,7 +5,7 @@ const { createRandomUser } = require('../../src/utils/testingUtils')
 
 const request = supertest(app)
 
-describe('Customer API Test', () => {
+describe('Customer API Test', () =>
   afterAll(async () => {
     console.log('**** Closing *****')
     await server.close()
@@ -14,7 +14,7 @@ describe('Customer API Test', () => {
     await new Promise(resolve => setTimeout(() => resolve(), 10000)) // avoid jest open handle error
   })
 
-  test('Ping test', async () => {
+  test('--- Ping test ---', async () => {
     const response = await request.get('/')
 
     expect(response.statusCode).toBe(200)
