@@ -1,28 +1,27 @@
-module.exports = mongoose => {
-  const schema = mongoose.Schema(
-    {
-      userName: { type: String, index: true, unique: true, required: true },
-      name: {
-        firstName: String,
-        lastName: String
-      },
-      description: String,
-      active: { type: Boolean, default: true },
-      city: String,
-      country: String,
-      phone: [String],
-      entryDate: { type: Date, default: Date.now },
-      availableCredit: { type: Number, default: 0 }
+const { Schema, model } = require('mongoose')
+
+const userSchema = new Schema(
+  {
+    username: {
+      type: String,
+      unique: true
     },
-    { timestamps: true }
-  )
+    name: String,
+    passwordHash: String,
+    notes: [{
+      type: Schema.Types.ObjectId,
+      ref: 'Note'
+    }]
+  },
+  { timestamps: true }
+)
 
-  schema.method('toJSON', function () {
-    const { __v, _id, ...object } = this.toObject()
-    object.id = _id
-    return object
-  })
+userSchema.method('toJSON', function () {
+  const { __v, _id, passwordHash, ...object } = this.toObject()
+  object.id = _id
+  return object
+})
 
-  const Customer = mongoose.model('customer', schema)
-  return Customer
-}
+const User = model('user', userSchema)
+
+module.exports = User

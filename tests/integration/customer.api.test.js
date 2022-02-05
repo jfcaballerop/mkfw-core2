@@ -1,7 +1,7 @@
 const supertest = require('supertest')
 const { app, server } = require('../../bin/server')
 const db = require('../../src/models')
-const { createRandomUser } = require('../../src/utils/testingUtils')
+const { createRandomUserCustomer } = require('../../src/utils/testingUtils')
 
 const request = supertest(app)
 
@@ -56,7 +56,7 @@ describe('Customer API Test', () => {
     })
     test('Create ONE randomuser', async () => {
       // expect.assertions(1)
-      const mockUser = createRandomUser()
+      const mockUser = createRandomUserCustomer()
       const response = await request
         .post('/api/customers/').send(mockUser)
         .expect(200)
@@ -88,9 +88,9 @@ describe('Customer API Test', () => {
     let response3 = null
 
     beforeAll(() => {
-      mockUser1 = createRandomUser()
-      mockUser2 = createRandomUser()
-      mockUser3 = createRandomUser()
+      mockUser1 = createRandomUserCustomer()
+      mockUser2 = createRandomUserCustomer()
+      mockUser3 = createRandomUserCustomer()
     })
     test('Create many randomuser and GET ALL', async () => {
       // expect.assertions(1)

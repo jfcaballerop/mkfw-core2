@@ -1,6 +1,6 @@
 const { v4: uuidv4 } = require('uuid')
 
-const createRandomUser = () => {
+const createRandomUserCustomer = () => {
   let user = {
     userName: 'test',
     name: {
@@ -29,13 +29,25 @@ const createRandomNote = () => {
     content: 'TEst note',
     date: new Date(),
     important: false,
-    user: 'TestUser'
+    user: null
   }
 
   return note
 }
 
+const createRandomUser = () => {
+  const user = {
+    username: uuidv4(),
+    name: '',
+    passwordHash: 'asdadasdadad',
+    notes: []
+  }
+
+  return user
+}
+
 module.exports = {
-  createRandomUser,
-  createRandomNote
+  createRandomUserCustomer,
+  createRandomNote,
+  createRandomUser
 }

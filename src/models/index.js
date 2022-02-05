@@ -9,5 +9,6 @@ db.url = dbConfig.url
 db.clusterUri = dbConfig.clusterUri
 db.customers = require('./cutomer.model.js')
 db.notes = require('./note.model')
+db.users = require('./user.model')
 
 module.exports = db
