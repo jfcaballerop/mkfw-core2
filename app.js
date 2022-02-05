@@ -52,6 +52,8 @@ app.get('/', (req, res) => {
 
 // Add Customer Routes
 require('./src/routes/customer.routes')(app)
+// Add Notes Routes
+require('./src/routes/note.routes')(app)
 
 // not Fund 404
 app.use(notFound)

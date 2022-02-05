@@ -3,10 +3,18 @@ const app = require('../app')
 const db = require('../src/models')
 
 // set port, listen for requests
-const PORT = (process.env.NODE_ENV === 'test') ? process.env.NODE_TEST_LOCAL_PORT : process.env.NODE_DOCKER_PORT
-const server = app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}.`)
-})
+
+const PORT = process.env.NODE_DOCKER_PORT || 3000
+let server
+if (process.env.NODE_ENV !== 'test') {
+  server = app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}.`)
+  })
+} else {
+  server = app.listen(() => {
+    console.log('Server is running')
+  })
+}
 
 process.on('uncaughtException', err => {
   console.warn('OOOPS! Unhandled ERROR', err.message)

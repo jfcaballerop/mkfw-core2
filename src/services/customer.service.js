@@ -1,14 +1,14 @@
 const { isMongoError } = require('../helpers/errorCodes.helper')
 const db = require('../models')
 const Customer = db.customers
-let { customerResponse } = require('../interface/ICustomerResponse')
+let { standardResponse } = require('../interface/IStandardResponse')
 
 // Create and Save a new Customer
 const save = async (req) => {
   // Validate request
   if (!req.body.userName) {
-    customerResponse = {
-      ...customerResponse,
+    standardResponse = {
+      ...standardResponse,
       msg: 'Content can not be empty!',
       status: 400
     }
@@ -29,8 +29,8 @@ const save = async (req) => {
     await customer
       .save(customer)
       .then(data => {
-        customerResponse = {
-          ...customerResponse,
+        standardResponse = {
+          ...standardResponse,
           msg: 'Customer save right!',
           status: 200,
           data: data
@@ -38,15 +38,15 @@ const save = async (req) => {
       })
       .catch(err => {
         console.log(err)
-        customerResponse = {
-          ...customerResponse,
+        standardResponse = {
+          ...standardResponse,
           msg: err.message || 'Some error occurred while creating the Customer.',
           status: isMongoError(err) ? isMongoError(err).httpStatus : 500,
           data: null
         }
       })
   }
-  return customerResponse
+  return standardResponse
 }
 
 // Find All
@@ -56,45 +56,45 @@ const findAll = async (req) => {
 
   await Customer.find(condition)
     .then(data => {
-      customerResponse = {
-        ...customerResponse,
+      standardResponse = {
+        ...standardResponse,
         msg: 'Customer retrieve right!',
         status: 200,
         data: data
       }
     })
     .catch(err => {
-      customerResponse = {
-        ...customerResponse,
+      standardResponse = {
+        ...standardResponse,
         msg: err.message || 'Some error occurred while retrieving customers.',
         status: isMongoError(err) ? isMongoError(err).httpStatus : 500,
         data: null
       }
     })
-  return customerResponse
+  return standardResponse
 }
 
 // Delete All
 const deleteAll = async (req) => {
   await Customer.deleteMany({})
     .then(data => {
-      customerResponse = {
-        ...customerResponse,
+      standardResponse = {
+        ...standardResponse,
         msg: 'Customer delete ALL right!',
         status: 200,
         data: data
       }
     })
     .catch(err => {
-      customerResponse = {
-        ...customerResponse,
+      standardResponse = {
+        ...standardResponse,
         msg: err.message || 'Some error occurred while removing all customers.',
         status: isMongoError(err) ? isMongoError(err).httpStatus : 500,
         data: null
       }
     })
 
-  return customerResponse
+  return standardResponse
 }
 
 // Find a single Customer with an id
@@ -104,15 +104,15 @@ const findOne = async (req, next) => {
   await Customer.findById(id)
     .then(data => {
       if (!data) {
-        customerResponse = {
-          ...customerResponse,
+        standardResponse = {
+          ...standardResponse,
           msg: 'Not found Customer with id ' + id,
           status: 404,
           data: null
         }
       } else {
-        customerResponse = {
-          ...customerResponse,
+        standardResponse = {
+          ...standardResponse,
           msg: 'Customer retrieve OK! id=' + id,
           status: 200,
           data: data
@@ -120,14 +120,14 @@ const findOne = async (req, next) => {
       }
     })
     .catch(err => {
-      customerResponse = {
-        ...customerResponse,
+      standardResponse = {
+        ...standardResponse,
         msg: err.message || 'Error retrieving Customer with id=' + id,
         status: 500,
         data: err
       }
     })
-  return customerResponse
+  return standardResponse
 }
 // Find a single Customer with an userName
 const findOneByUserName = async (req) => {
@@ -136,15 +136,15 @@ const findOneByUserName = async (req) => {
   await Customer.findOne({ userName: userName })
     .then(data => {
       if (!data) {
-        customerResponse = {
-          ...customerResponse,
+        standardResponse = {
+          ...standardResponse,
           msg: 'Not found Customer with userName ' + userName,
           status: 404,
           data: null
         }
       } else {
-        customerResponse = {
-          ...customerResponse,
+        standardResponse = {
+          ...standardResponse,
           msg: 'Customer retrieve OK! userName=' + userName,
           status: 200,
           data: data
@@ -152,21 +152,21 @@ const findOneByUserName = async (req) => {
       }
     })
     .catch(err => {
-      customerResponse = {
-        ...customerResponse,
+      standardResponse = {
+        ...standardResponse,
         msg: err.message || 'Error retrieving Customer with userName=' + userName,
         status: isMongoError(err) ? isMongoError(err).httpStatus : 500,
         data: null
       }
     })
-  return customerResponse
+  return standardResponse
 }
 
 // Update a Customer by the id in the request
 const update = async (req) => {
   if (!req.body) {
-    customerResponse = {
-      ...customerResponse,
+    standardResponse = {
+      ...standardResponse,
       msg: 'Data to update can not be empty!',
       status: 400,
       data: null
@@ -179,15 +179,15 @@ const update = async (req) => {
   await Customer.findByIdAndUpdate(id, req.body, { useFindAndModify: false })
     .then(data => {
       if (!data) {
-        customerResponse = {
-          ...customerResponse,
+        standardResponse = {
+          ...standardResponse,
           msg: `Cannot update Customer with id=${id}. Maybe Customer was not found!`,
           status: 400,
           data: null
         }
       } else {
-        customerResponse = {
-          ...customerResponse,
+        standardResponse = {
+          ...standardResponse,
           msg: 'Customer was updated successfully.',
           status: 200,
           data: data
@@ -195,14 +195,14 @@ const update = async (req) => {
       }
     })
     .catch(err => {
-      customerResponse = {
-        ...customerResponse,
+      standardResponse = {
+        ...standardResponse,
         msg: err.message || 'Error updating Customer with id=' + id,
         status: isMongoError(err) ? isMongoError(err).httpStatus : 500,
         data: null
       }
     })
-  return customerResponse
+  return standardResponse
 }
 
 // Delete a Customer with the specified id in the request
@@ -213,15 +213,15 @@ const deleteOne = async (req) => {
   await Customer.findByIdAndDelete(id)
     .then(data => {
       if (!data) {
-        customerResponse = {
-          ...customerResponse,
+        standardResponse = {
+          ...standardResponse,
           msg: `Cannot delete Customer with id=${id}. Maybe Customer was not found!`,
           status: 400,
           data: null
         }
       } else {
-        customerResponse = {
-          ...customerResponse,
+        standardResponse = {
+          ...standardResponse,
           msg: 'Customer was deleted successfully.',
           status: 200,
           data: data
@@ -229,58 +229,58 @@ const deleteOne = async (req) => {
       }
     })
     .catch(err => {
-      customerResponse = {
-        ...customerResponse,
+      standardResponse = {
+        ...standardResponse,
         msg: err.message || 'Error deleting Customer with id=' + id,
         status: isMongoError(err) ? isMongoError(err).httpStatus : 500,
         data: null
       }
     })
-  return customerResponse
+  return standardResponse
 }
 
 // Find all published Customers
 const findAllActivated = async () => {
   await Customer.find({ active: true })
     .then(data => {
-      customerResponse = {
-        ...customerResponse,
+      standardResponse = {
+        ...standardResponse,
         msg: 'Customer was retrieve successfully.',
         status: 200,
         data: data
       }
     })
     .catch(err => {
-      customerResponse = {
-        ...customerResponse,
+      standardResponse = {
+        ...standardResponse,
         msg: err.message || 'Some error occurred while retrieving customers.',
         status: isMongoError(err) ? isMongoError(err).httpStatus : 500,
         data: null
       }
     })
-  return customerResponse
+  return standardResponse
 }
 
 // Find All Customer ACTIVATED OrderByCredit
 const findAllAvailableCreditOrderByCredit = async () => {
   await Customer.find({ active: true }).sort('-availableCredit')
     .then(data => {
-      customerResponse = {
-        ...customerResponse,
+      standardResponse = {
+        ...standardResponse,
         msg: 'Customer order by available Credit was retrieve successfully.',
         status: 200,
         data: data
       }
     })
     .catch(err => {
-      customerResponse = {
-        ...customerResponse,
+      standardResponse = {
+        ...standardResponse,
         msg: err.message || 'Some error occurred while retrieving customers.',
         status: isMongoError(err) ? isMongoError(err).httpStatus : 500,
         data: null
       }
     })
-  return customerResponse
+  return standardResponse
 }
 
 module.exports = {
