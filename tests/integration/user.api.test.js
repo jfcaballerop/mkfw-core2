@@ -32,7 +32,7 @@ describe('User API Test', () => {
   // WITH DATA
   describe('User with DATA', () => {
     beforeEach(async () => {
-      await User.deleteMany({})
+      await User.deleteMany({ username: 'testuser' })
 
       const passwordHash = await bcrypt.hash('pswd', 10)
       const user = new User({ username: 'testuser', passwordHash })
@@ -41,7 +41,7 @@ describe('User API Test', () => {
     })
 
     test('works as expected creating a fresh username', async () => {
-      const usersAtStart = await getUsers()
+      const usersAtStart = await getUsers({})
 
       const newUser = {
         username: 'jf',
@@ -55,7 +55,7 @@ describe('User API Test', () => {
         .expect(201)
         .expect('Content-Type', /application\/json/)
 
-      const usersAtEnd = await getUsers()
+      const usersAtEnd = await getUsers({})
 
       expect(usersAtEnd).toHaveLength(usersAtStart.length + 1)
 
@@ -64,8 +64,8 @@ describe('User API Test', () => {
     })
 
     test('send error if username exists', async () => {
-      const usersAtStart = await getUsers()
-
+      const usersAtStart = await getUsers({ username: 'testuser' })
+      console.log('¡usersAtStart', usersAtStart)
       const passwordHash = await bcrypt.hash('pswd', 10)
       const user = { username: 'testuser', passwordHash }
 
@@ -74,10 +74,11 @@ describe('User API Test', () => {
         .send(user)
         .expect(400)
         .expect('Content-Type', /application\/json/)
-      // console.log('****', result.body.msg)
+      // console.log('****', result.bwody)
       expect(result.body.msg).toContain('duplicate key error')
 
-      const usersAtEnd = await getUsers()
+      const usersAtEnd = await getUsers({ username: 'testuser' })
+      console.log('usersAtEnd', usersAtEnd)
       expect(usersAtEnd).toStrictEqual(usersAtStart)
     })
 
@@ -87,7 +88,7 @@ describe('User API Test', () => {
         .expect(200)
         .expect('Content-Type', /application\/json/)
 
-      expect(response.body.data).toHaveLength(1)
+      expect(response.body.data).not.toHaveLength(0)
     })
   })
 })

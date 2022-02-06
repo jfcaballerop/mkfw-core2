@@ -29,13 +29,13 @@ const createRandomUserCustomer = () => {
   return user
 }
 
-const createRandomNote = () => {
+const createRandomNote = (id) => {
   const note = {
     title: uuidv4(),
     content: 'TEst note',
     date: new Date(),
     important: false,
-    user: null
+    userId: id
   }
 
   return note
@@ -52,8 +52,13 @@ const createRandomUser = () => {
   return user
 }
 
-const getUsers = async () => {
-  const usersDB = await User.find({})
+const getUsers = async (user) => {
+  let usersDB
+  if (user) {
+    usersDB = await User.find({ user })
+  } else {
+    usersDB = await User.find({})
+  }
   return usersDB.map(user => user.toJSON())
 }
 const closingTestConnections = async () => {

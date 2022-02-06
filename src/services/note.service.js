@@ -220,7 +220,7 @@ const update = async (req) => {
 // Delete a Note with the specified id in the request
 const deleteOne = async (req) => {
   const id = req.params.id
-  console.log('ID DELETE::', id)
+  // console.log('ID DELETE::', id)
 
   await Note.findByIdAndDelete(id)
     .then(data => {
