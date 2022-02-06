@@ -1,4 +1,10 @@
+const supertest = require('supertest')
 const { v4: uuidv4 } = require('uuid')
+const { app, server } = require('../../app')
+const User = require('../../src/models/user.model')
+const db = require('../../src/models')
+
+const api = supertest(app)
 
 const createRandomUserCustomer = () => {
   let user = {
@@ -46,8 +52,21 @@ const createRandomUser = () => {
   return user
 }
 
+const getUsers = async () => {
+  const usersDB = await User.find({})
+  return usersDB.map(user => user.toJSON())
+}
+const closingTestConnections = async () => {
+  await server.close()
+  // Closing the DB connection allows Jest to exit successfully.
+  await db.mongoose.connection.close()
+}
+
 module.exports = {
   createRandomUserCustomer,
   createRandomNote,
-  createRandomUser
+  createRandomUser,
+  api,
+  getUsers,
+  closingTestConnections
 }

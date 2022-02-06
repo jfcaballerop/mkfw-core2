@@ -121,7 +121,7 @@ const save = async (req) => {
         standardResponse = {
           ...standardResponse,
           msg: 'User save right!',
-          status: 200,
+          status: 201,
           data: data
         }
       })

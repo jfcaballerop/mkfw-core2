@@ -208,7 +208,7 @@ const update = async (req) => {
 // Delete a Customer with the specified id in the request
 const deleteOne = async (req) => {
   const id = req.params.id
-  console.log('ID DELETE::', id)
+  // console.log('ID DELETE::', id)
 
   await Customer.findByIdAndDelete(id)
     .then(data => {
