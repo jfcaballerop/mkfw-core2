@@ -9,7 +9,11 @@ const findAll = async (req) => {
   const title = req.query.title
   const condition = title ? { title: { $regex: new RegExp(title), $options: 'i' } } : {}
 
-  await User.find(condition)
+  await User.find(condition).populate('notes', {
+    content: 1,
+    title: 1,
+    date: 1
+  })
     .then(data => {
       standardResponse = {
         ...standardResponse,

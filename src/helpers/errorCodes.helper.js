@@ -4,7 +4,7 @@ const mongoDBErrorCodes = {
 }
 
 const isMongoError = (errCode) => {
-  console.log('*** isMongoError err:: ', JSON.stringify(errCode))
+  // console.log('*** isMongoError err:: ', JSON.stringify(errCode))
   if (Object.prototype.hasOwnProperty.call(mongoDBErrorCodes, errCode.code)) {
     return mongoDBErrorCodes[errCode.code]
   } else if (mongoDBErrorCodes[errCode.name]) {

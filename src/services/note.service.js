@@ -1,6 +1,7 @@
 const { isMongoError } = require('../helpers/errorCodes.helper')
 const db = require('../models')
 const Note = db.notes
+const User = db.users
 let { standardResponse } = require('../interface/IStandardResponse')
 
 // Find All
@@ -8,7 +9,10 @@ const findAll = async (req) => {
   const title = req.query.title
   const condition = title ? { title: { $regex: new RegExp(title), $options: 'i' } } : {}
 
-  await Note.find(condition)
+  await Note.find(condition).populate('user', {
+    username: 1,
+    name: 1
+  })
     .then(data => {
       standardResponse = {
         ...standardResponse,
@@ -96,47 +100,58 @@ const findOneByTitle = async (req) => {
 
 // Create and Save a new Note
 const save = async (req) => {
+  const {
+    title,
+    content,
+    date,
+    important,
+    userId
+  } = req.body
   // Validate request
-  if (!req.body.title) {
+  if (!title || !userId) {
     standardResponse = {
       ...standardResponse,
-      msg: 'Content can not be empty!',
+      msg: 'Content or User can not be empty!',
       status: 400
     }
   } else {
+    // Find User
+    // FIXME: Comprobar user is not undefined
+    const user = await User.findById(userId)
+
     // Create a Note
-    const customer = new Note({
-      title: req.body.title,
-      content: req.body.content ? req.body.content : '',
-      date: req.body.date ? req.body.date : new Date(),
-      important: req.body.important ? req.body.important : false,
-      user: req.body.user ? req.body.user : ''
+    const note = new Note({
+      title: title,
+      content: content || '',
+      date: date || new Date(),
+      important: important || false,
+      user: user._id || null
     })
 
-    // Save Note in the database
-    await customer
-      .save(customer)
-      .then(data => {
-        standardResponse = {
-          ...standardResponse,
-          msg: 'Note save right!',
-          status: 200,
-          data: data
-        }
-      })
-      .catch(err => {
-        console.log(err)
-        standardResponse = {
-          ...standardResponse,
-          msg: err.message || 'Some error occurred while creating the Note.',
-          status: isMongoError(err) ? isMongoError(err).httpStatus : 500,
-          data: null
-        }
-      })
-  }
-  return standardResponse
-}
+    try {
+      const data = await note.save(note)
+      user.notes = user.notes.concat(data._id)
+      await user.save()
 
+      standardResponse = {
+        ...standardResponse,
+        msg: 'Note save right!',
+        status: 201,
+        data: data
+      }
+    } catch (err) {
+      console.log(err)
+      standardResponse = {
+        ...standardResponse,
+        msg: err.message || 'Some error occurred while creating the Note.',
+        status: isMongoError(err) ? isMongoError(err).httpStatus : 500,
+        data: null
+      }
+    }
+    // Save Note in the database
+    return standardResponse
+  }
+}
 // Delete All
 const deleteAll = async (req) => {
   await Note.deleteMany({})

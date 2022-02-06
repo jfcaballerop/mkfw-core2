@@ -6,10 +6,10 @@ module.exports = app => {
   // Create a new Note
   router.post('/', users.create)
 
-  /*
   // Retrieve all notes
-  router.get('/', notes.getAll)
+  router.get('/', users.getAll)
 
+  /*
   // Retrieve a single Note with id
   router.get('/:id', notes.getOne)
 
