@@ -67,8 +67,9 @@ const findOne = async (req, next) => {
 }
 
 // Find a single User with an username
-const findOneByUsername = async (user) => {
-  const { username } = user
+const findOneByUsernamePassword = async (user) => {
+  const { username, password } = user
+
   await User.findOne({ username: username })
     .then(data => {
       if (!data) {
@@ -95,6 +96,11 @@ const findOneByUsername = async (user) => {
         data: null
       }
     })
+
+  // TODO: hacer un bcryptCompare
+  const passwordHash = await bcrypt.compare(password, standardResponse.data.passwordHash)
+  console.log('UserName y PasswordHash', username, passwordHash)
+
   return standardResponse
 }
 
@@ -245,7 +251,7 @@ module.exports = {
   save,
   deleteAll,
   findOne,
-  findOneByUsername,
+  findOneByUsernamePassword,
   update,
   deleteOne
 
