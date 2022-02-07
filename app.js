@@ -56,6 +56,8 @@ require('./src/routes/customer.routes')(app)
 require('./src/routes/note.routes')(app)
 // Add User Routes
 require('./src/routes/user.routes')(app)
+// Add Login Routes
+require('./src/routes/login.routes')(app)
 
 // not Fund 404
 app.use(notFound)

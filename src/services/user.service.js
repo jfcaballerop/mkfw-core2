@@ -66,23 +66,22 @@ const findOne = async (req, next) => {
   return standardResponse
 }
 
-// Find a single User with an title
-const findOneByTitle = async (req) => {
-  const title = req.params.title
-
-  await User.findOne({ title: title })
+// Find a single User with an username
+const findOneByUsername = async (user) => {
+  const { username } = user
+  await User.findOne({ username: username })
     .then(data => {
       if (!data) {
         standardResponse = {
           ...standardResponse,
-          msg: 'Not found User with title ' + title,
+          msg: 'Not found User with username ' + username,
           status: 404,
           data: null
         }
       } else {
         standardResponse = {
           ...standardResponse,
-          msg: 'User retrieve OK! title=' + title,
+          msg: 'User retrieve OK! username=' + username,
           status: 200,
           data: data
         }
@@ -91,7 +90,7 @@ const findOneByTitle = async (req) => {
     .catch(err => {
       standardResponse = {
         ...standardResponse,
-        msg: err.message || 'Error retrieving User with title=' + title,
+        msg: err.message || 'Error retrieving User with username=' + username,
         status: isMongoError(err) ? isMongoError(err).httpStatus : 500,
         data: null
       }
@@ -246,7 +245,7 @@ module.exports = {
   save,
   deleteAll,
   findOne,
-  findOneByTitle,
+  findOneByUsername,
   update,
   deleteOne
 
