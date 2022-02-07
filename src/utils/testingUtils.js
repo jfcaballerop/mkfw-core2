@@ -52,12 +52,14 @@ const createRandomUser = () => {
   return user
 }
 
-const getUsers = async (user) => {
+const getUsers = async (username) => {
   let usersDB
-  if (user) {
-    usersDB = await User.find({ user })
+  if (username) {
+    usersDB = await User.find(username)
+    // console.log('*** GetUser desestructuring', usersDB)
   } else {
     usersDB = await User.find({})
+    // console.log('*** GetUser', usersDB)
   }
   return usersDB.map(user => user.toJSON())
 }

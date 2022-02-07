@@ -17,9 +17,9 @@ describe('Notes API Test', () => {
   describe('Test Notes NO DATA', () => {
     beforeEach(async () => {
       await Note.deleteMany({})
-      await User.deleteMany({ username: 'testuserNote' })
+      await User.deleteMany({ username: 'testNote' })
 
-      const newUser = new User({ username: 'testuserNote' })
+      const newUser = new User({ username: 'testNote' })
       await newUser.save()
     })
     test('Get ALL notes', async () => {
@@ -55,7 +55,7 @@ describe('Notes API Test', () => {
     })
     test('Create ONE randomNote', async () => {
       // expect.assertions(1)
-      const user = await User.findOne({ username: 'testuserNote' })
+      const user = await User.findOne({ username: 'testNote' })
       const mockNote = createRandomNote(user._id.toString())
       // console.log('***', mockNote)
       const response = await api
@@ -111,9 +111,9 @@ describe('Notes API Test', () => {
     let response3
     beforeAll(async () => {
       await Note.deleteMany({})
-      await User.deleteMany({ username: 'testuserNote' })
+      await User.deleteMany({ username: 'testNote' })
 
-      const newUser = new User({ username: 'testuserNote' })
+      const newUser = new User({ username: 'testNote' })
       await newUser.save()
 
       mockNote1 = createRandomNote(newUser._id.toString())

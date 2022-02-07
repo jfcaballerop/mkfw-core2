@@ -41,7 +41,7 @@ describe('User API Test', () => {
     })
 
     test('works as expected creating a fresh username', async () => {
-      const usersAtStart = await getUsers({})
+      const usersAtStart = await getUsers({ username: 'testuser' })
 
       const newUser = {
         username: 'jf',
@@ -55,7 +55,12 @@ describe('User API Test', () => {
         .expect(201)
         .expect('Content-Type', /application\/json/)
 
-      const usersAtEnd = await getUsers({})
+      const usersAtEnd = await getUsers({
+        $or: [
+          { username: 'testuser' },
+          { username: 'jf' }
+        ]
+      })
 
       expect(usersAtEnd).toHaveLength(usersAtStart.length + 1)
 
