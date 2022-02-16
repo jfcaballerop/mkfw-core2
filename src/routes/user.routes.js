@@ -15,13 +15,13 @@ module.exports = app => {
   // Retrieve a single User with id
   router.get('/id/:id', users.getOneById)
 
-  /*
   // Delete ALL
   router.delete('/', users.removeAll)
 
   // Update a User
   router.put('/', users.update)
 
+  /*
   // Delete a User with id
   router.delete('/:id', users.remove)
 

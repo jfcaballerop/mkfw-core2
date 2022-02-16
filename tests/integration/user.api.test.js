@@ -133,13 +133,35 @@ describe('User API Test', () => {
     })
     test('get One user by ID', async () => {
       const user = await User.findOne({ username: usermock.username })
-      console.log(user._id)
       const response = await api
         .get(`/api/users/id/${user.id}`)
         .expect(200)
         .expect('Content-Type', /application\/json/)
 
       expect(response.body.data.username).toBe(usermock.username)
+    })
+
+    test('remove All users', async () => {
+      const response = await api
+        .delete('/api/users')
+        .expect(200)
+        .expect('Content-Type', /application\/json/)
+
+      expect(response.body.data).toHaveProperty('deletedCount')
+    })
+
+    test('update User', async () => {
+      const user = await User.findOne({ username: usermock.username }).exec()
+      user.username = 'update'
+      user.id = user._id
+      console.log(user)
+      const response = await api
+        .put('/api/users')
+        .send(user)
+        .expect(200)
+        .expect('Content-Type', /application\/json/)
+
+      expect(response.body.data).toHaveProperty(null)
     })
   })
 })
