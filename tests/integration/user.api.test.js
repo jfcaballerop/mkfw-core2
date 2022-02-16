@@ -14,7 +14,8 @@ describe('User API Test', () => {
 
     expect(response.statusCode).toBe(200)
   })
-  // NO DATA
+
+  //   NO DATA  //
   describe('User with NO DATA', () => {
     beforeEach(async () => {
       await User.deleteMany({})
@@ -27,17 +28,42 @@ describe('User API Test', () => {
 
       expect(response.body.data).toHaveLength(0)
     })
+    test('get One user by username - Not Found', async () => {
+      const usernameTest = 'testuser'
+      const response = await api
+        .get(`/api/users/${usernameTest}`)
+        .expect(404)
+        .expect('Content-Type', /application\/json/)
+
+      expect(response.body.data).toBe(null)
+    })
+    test('get One user by ID - Not Found', async () => {
+      const IDTest = '123456789'
+      const response = await api
+        .get(`/api/users/${IDTest}`)
+        .expect(404)
+        .expect('Content-Type', /application\/json/)
+
+      expect(response.body.data).toBe(null)
+    })
   })
 
   // WITH DATA
   describe('User with DATA', () => {
+    const usermock = {
+      username: 'testuser'
+    }
     beforeEach(async () => {
-      await User.deleteMany({ username: 'testuser' })
+      await User.deleteMany({ username: usermock.username })
 
       const passwordHash = await bcrypt.hash('pswd', 10)
       const user = new User({ username: 'testuser', passwordHash })
 
       await user.save()
+    })
+
+    afterAll(async () => {
+      await User.deleteMany({})
     })
 
     test('works as expected creating a fresh username', async () => {
@@ -94,6 +120,26 @@ describe('User API Test', () => {
         .expect('Content-Type', /application\/json/)
 
       expect(response.body.data).not.toHaveLength(0)
+    })
+
+    test('get One user by username and retrieve it', async () => {
+      const usernameTest = 'testuser'
+      const response = await api
+        .get(`/api/users/${usernameTest}`)
+        .expect(200)
+        .expect('Content-Type', /application\/json/)
+
+      expect(response.body.data.username).toBe(usernameTest)
+    })
+    test('get One user by ID', async () => {
+      const user = await User.findOne({ username: usermock.username })
+      console.log(user._id)
+      const response = await api
+        .get(`/api/users/id/${user.id}`)
+        .expect(200)
+        .expect('Content-Type', /application\/json/)
+
+      expect(response.body.data.username).toBe(usermock.username)
     })
   })
 })
