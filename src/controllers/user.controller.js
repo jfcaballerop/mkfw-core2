@@ -1,7 +1,7 @@
 const {
   findAll,
   findOne,
-  findOneByTitle,
+  findOneByUsername,
   save,
   deleteAll,
   deleteOne,
@@ -25,8 +25,13 @@ exports.getOne = async (req, res, next) => {
   }
 }
 // Find a single Note with an userName
-exports.getOneByTitle = async (req, res) => {
-  const response = await findOneByTitle(req)
+exports.getOneByUserName = async (req, res) => {
+  const response = await findOneByUsername(req)
+  res.status(response.status).send(response)
+}
+// Find a single Note with an ID
+exports.getOneById = async (req, res) => {
+  const response = await findOne(req)
   res.status(response.status).send(response)
 }
 

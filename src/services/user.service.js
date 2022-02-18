@@ -6,12 +6,12 @@ let { standardResponse } = require('../interface/IStandardResponse')
 
 // Find All
 const findAll = async (req) => {
-  const title = req.query.title
-  const condition = title ? { title: { $regex: new RegExp(title), $options: 'i' } } : {}
+  const username = req.query.username
+  const condition = username ? { username: { $regex: new RegExp(username), $options: 'i' } } : {}
 
   await User.find(condition).populate('notes', {
     content: 1,
-    title: 1,
+    username: 1,
     date: 1
   })
     .then(data => {
@@ -69,7 +69,6 @@ const findOne = async (req, next) => {
 // Find a single User with an username
 const findOneByUsernamePassword = async (user) => {
   const { username, password } = user
-
   await User.findOne({ username: username })
     .then(data => {
       if (!data) {
@@ -101,6 +100,38 @@ const findOneByUsernamePassword = async (user) => {
   const passwordHash = await bcrypt.compare(password, standardResponse.data.passwordHash)
   console.log('UserName y PasswordHash', username, passwordHash)
 
+  return standardResponse
+}
+
+const findOneByUsername = async (req) => {
+  const username = req.params.username
+
+  await User.findOne({ username: username })
+    .then(data => {
+      if (!data) {
+        standardResponse = {
+          ...standardResponse,
+          msg: 'Not found User with username ' + username,
+          status: 404,
+          data: null
+        }
+      } else {
+        standardResponse = {
+          ...standardResponse,
+          msg: 'User retrieve OK! username=' + username,
+          status: 200,
+          data: data
+        }
+      }
+    })
+    .catch(err => {
+      standardResponse = {
+        ...standardResponse,
+        msg: err.message || 'Error retrieving User with username=' + username,
+        status: isMongoError(err) ? isMongoError(err).httpStatus : 500,
+        data: null
+      }
+    })
   return standardResponse
 }
 
@@ -252,6 +283,7 @@ module.exports = {
   deleteAll,
   findOne,
   findOneByUsernamePassword,
+  findOneByUsername,
   update,
   deleteOne
 

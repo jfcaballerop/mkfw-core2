@@ -1,6 +1,5 @@
-const {
-  findOneByUsernamePassword
-} = require('../services/user.service')
+const { findOneByUsernamePassword } = require('../services/login.service')
+const { findOneByUsername } = require('../services/user.service')
 const jwt = require('jsonwebtoken')
 const { validationResult } = require('express-validator/check')
 
@@ -15,5 +14,10 @@ exports.doLogin = async (req, res) => {
   }
   console.log(username, password)
   const response = await findOneByUsernamePassword({ username, password })
+}
+
+// Do signin
+exports.signin = async (req, res) => {
+  const response = await findOneByUsername(req)
   res.status(response.status).send(response)
 }
