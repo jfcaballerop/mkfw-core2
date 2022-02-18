@@ -1,3 +1,4 @@
+const userExtractor = require('../middleware/userExtractor.js')
 
 module.exports = app => {
   const notes = require('../controllers/note.controller.js')
@@ -13,7 +14,7 @@ module.exports = app => {
   router.get('/title/:title', notes.getOneByTitle)
 
   // Create a new Note
-  router.post('/', notes.create)
+  router.post('/', userExtractor, notes.create)
 
   // Delete ALL
   router.delete('/', notes.removeAll)

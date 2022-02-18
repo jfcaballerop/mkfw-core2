@@ -32,6 +32,7 @@ exports.getOneByTitle = async (req, res) => {
 
 // Create and Save a new Note
 exports.create = async (req, res) => {
+  // FIXME: REVISAR QUE EL USERID DEL TOKEN === AL DE LA CREACION DE LA NOTA
   const response = await save(req)
   res.status(response.status).send(response)
 }
