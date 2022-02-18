@@ -152,16 +152,29 @@ describe('User API Test', () => {
 
     test('update User', async () => {
       const user = await User.findOne({ username: usermock.username }).exec()
-      user.username = 'update'
-      user.id = user._id
-      console.log(user)
+      const userupdate = {
+        ...usermock,
+        username: 'update',
+        id: user._id
+      }
+      console.log(userupdate)
       const response = await api
         .put('/api/users')
-        .send(user)
+        .send(userupdate)
         .expect(200)
         .expect('Content-Type', /application\/json/)
 
-      expect(response.body.data).toHaveProperty(null)
+      expect(response.body.data).toHaveProperty('username', 'update')
+    })
+    test('Delete User', async () => {
+      const user = await User.findOne({ username: usermock.username }).exec()
+
+      const response = await api
+        .delete(`/api/users/${user.id}`)
+        .expect(200)
+        .expect('Content-Type', /application\/json/)
+
+      expect(response.body.msg).toBe('User was deleted successfully.')
     })
   })
 })

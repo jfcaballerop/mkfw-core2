@@ -21,10 +21,8 @@ module.exports = app => {
   // Update a User
   router.put('/', users.update)
 
-  /*
   // Delete a User with id
   router.delete('/:id', users.remove)
 
-  */
   app.use('/api/users', router)
 }
