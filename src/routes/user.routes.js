@@ -3,28 +3,26 @@ module.exports = app => {
   const users = require('../controllers/user.controller.js')
   const router = require('express').Router()
 
-  // Create a new Note
+  // Create a new User
   router.post('/', users.create)
 
-  // Retrieve all notes
+  // Retrieve all users
   router.get('/', users.getAll)
 
-  /*
-  // Retrieve a single Note with id
-  router.get('/:id', notes.getOne)
+  // Retrieve a single User with username
+  router.get('/:username', users.getOneByUserName)
 
-  // Retrieve a single Note with title
-  router.get('/title/:title', notes.getOneByTitle)
+  // Retrieve a single User with id
+  router.get('/id/:id', users.getOneById)
 
   // Delete ALL
-  router.delete('/', notes.removeAll)
+  router.delete('/', users.removeAll)
 
-  // Update a Note
-  router.put('/', notes.update)
+  // Update a User
+  router.put('/', users.update)
 
-  // Delete a Note with id
-  router.delete('/:id', notes.remove)
+  // Delete a User with id
+  router.delete('/:id', users.remove)
 
-  */
   app.use('/api/users', router)
 }
